@@ -34,7 +34,7 @@ void lw_immd_assm(void) {
 		return;
 	}
 	//register 2 
-	if ( PARAM2.value > 0x7FFF) {
+	if ( PARAM2.value > 0xFFFF) {
 		state = INVALID_IMMED;
 		return;
 	}
