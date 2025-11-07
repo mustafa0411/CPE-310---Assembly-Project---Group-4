@@ -87,11 +87,12 @@ void sub_reg_assm(void) {
 }
 
 void sub_reg_bin(void) {
-	// Check if the op code bits match
-	// check_bits(start_bit, bit_string) returns 0 if the bit_string matches
-	// any x will be skipped
-	// If the manual shows (0), then the value of that bit doesnt matter
-	if (checkBits(31, "000000") != 0 || checkBits(5, "100100") != 0 ) {
+	
+// Check if the op code bits match the SUB instruction pattern
+// checkBits(start_bit, bit_string) returns 0 if the bits match
+// 'x' characters are ignored in comparison (don’t care bits)
+// For SUB: opcode = 000000 (bits 31–26), funct = 100010 (bits 5–0)
+	if (checkBits(31, "000000") != 0 || checkBits(5, "100010") != 0 ) {
 		state = WRONG_COMMAND;
 		return;
 	}
