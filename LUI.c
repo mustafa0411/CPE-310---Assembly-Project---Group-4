@@ -18,11 +18,7 @@ void lui_immd_assm(void) {
 		state = MISSING_REG;
 		return;
 	}
-	if (PARAM2.type != REGISTER) {
-		state = MISSING_REG;
-		return;
-	}
-	if (PARAM3.type != IMMEDIATE) {
+	if (PARAM2.type != IMMEDIATE) {
 		state = INVALID_PARAM;
 		return;
 	}
@@ -31,25 +27,21 @@ void lui_immd_assm(void) {
 		state = INVALID_REG;
 		return;
 	}
-	if (PARAM2.value > 31) {
-		state = INVALID_REG;
-		return;
-	}
-	if (PARAM3.value > 0xFFFF) {
+	if (PARAM2.value > 0xFFFF) {
 		state = INVALID_IMMED;
 		return;
 	}
 
-	setBits_str(31, "001111");
-	setBits_num(20, PARAM1.value, 5);
-	setBits_num(25, PARAM2.value, 5);
-	setBits_num(15, PARAM3.value, 16);
+	setBits_str(31, "001111"); // opcode for LUI
+	setBits_num(25, 0, 5); // RS is always 0 for LUI
+	setBits_num(20, PARAM1.value, 5); // Target Register(Rt)
+	setBits_num(15, PARAM2.value, 16); // Immediate value
 
 	state = COMPLETE_ENCODE;
 }
 
 void lui_immd_bin(void) {
-	if (checkBits(31, "001111") != 0) {
+	if (checkBits(31, "001111") != 0 || checkBits(25, "000000") != 0) {
 		state = WRONG_COMMAND;
 		return;
 	}
@@ -58,10 +50,10 @@ void lui_immd_bin(void) {
 	uint32_t Rt = getBits(20, 5);
 	uint32_t imm16 = getBits(15, 16);
 
+	// Setting only two parameters instead of 3
 	setOp("LUI");
-	setParam(1, REGISTER, Rt); 
-	setParam(2, REGISTER, Rs); 
-	setParam(3, IMMEDIATE, imm16); 
+	setParam(1, REGISTER, Rt);
+	setParam(2, IMMEDIATE, imm16); 
 
 	state = COMPLETE_DECODE;
 }

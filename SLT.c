@@ -7,6 +7,15 @@
 
 #include "Instruction.h"
 
+/*
+* Author: Ol' Jim
+* Date: 06/13/2012
+* ByteForge Systems
+* MIPS-Translatron 3000
+*/
+
+#include "Instruction.h"
+
 void slt_reg_assm(void) {
 	// Checking that the op code matches
 	// strcmp(string1, string2) return 0 if they match
@@ -26,13 +35,13 @@ void slt_reg_assm(void) {
 		return;
 	}
 
-	// This is AND register, so param 2 needs to be a register
+	// This is SLT register, so param 2 needs to be a register
 	if (PARAM2.type != REGISTER) {
 		state = MISSING_REG;
 		return;
 	}
 
-	// This is AND register, so param 3 needs to be a register
+	// This is SLT register, so param 3 needs to be a register
 	if (PARAM3.type != REGISTER) {
 		state = MISSING_REG;
 		return;
@@ -71,13 +80,13 @@ void slt_reg_assm(void) {
 	setBits_str(5, "101010");
 
 	// set Rd
-	setBits_num(20, PARAM1.value, 5);
+	setBits_num(15, PARAM1.value, 5);
 
 	// set Rs
 	setBits_num(25, PARAM2.value, 5);
 
 	// set Rt
-	setBits_num(15, PARAM3.value, 5);
+	setBits_num(20, PARAM3.value, 5);
 
 	// tell the system the encoding is done
 	state = COMPLETE_ENCODE;

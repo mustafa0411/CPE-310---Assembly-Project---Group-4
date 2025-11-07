@@ -54,10 +54,11 @@ void or_reg_bin(void) {
 	uint32_t Rt = getBits(20, 5);
 
 	setOp("OR");
-
-	setParam(1, REGISTER, Rd); 
-	setParam(2, REGISTER, Rs); 
-	setParam(3, REGISTER, Rt); 
+	// setCond_num(cond);
+	// setParam(param_num, param_type, param_value)
+	setParam(1, REGISTER, Rd); //destination
+	setParam(2, REGISTER, Rs); // first source register
+	setParam(3, REGISTER, Rt); // second source target register
 
 	state = COMPLETE_DECODE;
 }
